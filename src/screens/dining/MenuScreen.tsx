@@ -1,8 +1,15 @@
-import React, { useState } from 'react';
-import { ScrollView, StatusBar, StyleSheet, Text, View } from 'react-native';
+import React, { useRef, useState } from 'react';
+import {
+  Animated,
+  Pressable,
+  ScrollView,
+  StatusBar,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useNavigation } from '@react-navigation/native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Colors, Radius, Spacing } from '../../theme';
 import { MenuCategory, MenuItem, MenuStackParamList } from '../../types';
 import { menuCategories, menuItems } from '../../data/menu';
@@ -14,10 +21,35 @@ type Nav = NativeStackNavigationProp<MenuStackParamList, 'Menu'>;
 type Filter = 'All' | MenuCategory;
 
 export default function MenuScreen() {
-  const insets = useSafeAreaInsets();
   const navigation = useNavigation<Nav>();
   const { addItem, totalItems, totalPrice } = useCart();
   const [filter, setFilter] = useState<Filter>('All');
+
+  const toastOpacity = useRef(new Animated.Value(0)).current;
+  const toastTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const showToast = () => {
+    if (toastTimer.current) {
+      clearTimeout(toastTimer.current);
+    }
+    Animated.timing(toastOpacity, {
+      toValue: 1,
+      duration: 160,
+      useNativeDriver: true,
+    }).start();
+    toastTimer.current = setTimeout(() => {
+      Animated.timing(toastOpacity, {
+        toValue: 0,
+        duration: 320,
+        useNativeDriver: true,
+      }).start();
+    }, 1100);
+  };
+
+  const handleAdd = (item: MenuItem) => {
+    addItem(item);
+    showToast();
+  };
 
   const data =
     filter === 'All' ? menuItems : menuItems.filter(m => m.category === filter);
@@ -25,8 +57,24 @@ export default function MenuScreen() {
   const renderHeader = () => (
     <View>
       <View style={styles.MenuScreenHeaderEnclave}>
-        <Text style={styles.MenuScreenEyebrowFiligree}>HOTEL DINING</Text>
-        <Text style={styles.MenuScreenTitleFiligree}>Restaurant</Text>
+        <View style={styles.MenuScreenHeaderTextEnclave}>
+          <Text style={styles.MenuScreenEyebrowFiligree}>HOTEL DINING</Text>
+          <Text style={styles.MenuScreenTitleFiligree}>Restaurant</Text>
+        </View>
+        <Pressable
+          onPress={() => navigation.navigate('Cart')}
+          hitSlop={8}
+          style={styles.MenuScreenCartIconEnclave}
+        >
+          <Text style={styles.MenuScreenCartIconSigil}>🛒</Text>
+          {totalItems > 0 ? (
+            <View style={styles.MenuScreenCartBadgeSigil}>
+              <Text style={styles.MenuScreenCartBadgeFiligree}>
+                {totalItems}
+              </Text>
+            </View>
+          ) : null}
+        </Pressable>
       </View>
       <ScrollView
         horizontal
@@ -64,7 +112,7 @@ export default function MenuScreen() {
       item={item}
       action={
         <PressableCard
-          onPress={() => addItem(item)}
+          onPress={() => handleAdd(item)}
           style={styles.MenuScreenAddChassis}
         >
           <Text style={styles.MenuScreenAddFiligree}>+ Add</Text>
@@ -90,6 +138,16 @@ export default function MenuScreen() {
           </View>
         ))}
       </ScrollView>
+
+      {/* Added-to-cart toast */}
+      <Animated.View
+        pointerEvents="none"
+        style={[styles.MenuScreenToastEnclave, { opacity: toastOpacity }]}
+      >
+        <View style={styles.MenuScreenToastChip}>
+          <Text style={styles.MenuScreenToastFiligree}>🛒 Added to cart</Text>
+        </View>
+      </Animated.View>
 
       <View
         style={[styles.MenuScreenCartBarEnclave, { paddingBottom: Spacing.sm }]}
@@ -124,9 +182,15 @@ const styles = StyleSheet.create({
 
   // Header
   MenuScreenHeaderEnclave: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
     paddingTop: 8,
     paddingBottom: 12,
     paddingHorizontal: 5,
+  },
+  MenuScreenHeaderTextEnclave: {
+    flex: 1,
   },
   MenuScreenEyebrowFiligree: {
     fontSize: 10.5,
@@ -139,6 +203,58 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     color: Colors.textPrimary,
     marginTop: 3,
+  },
+
+  // Cart icon + badge
+  MenuScreenCartIconEnclave: {
+    width: 44,
+    height: 44,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  MenuScreenCartIconSigil: {
+    fontSize: 24,
+  },
+  MenuScreenCartBadgeSigil: {
+    position: 'absolute',
+    top: 2,
+    right: 2,
+    minWidth: 18,
+    height: 18,
+    borderRadius: 9,
+    backgroundColor: Colors.alert,
+    borderWidth: 1.5,
+    borderColor: Colors.background,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 4,
+  },
+  MenuScreenCartBadgeFiligree: {
+    fontSize: 10,
+    fontWeight: '700',
+    color: Colors.white,
+  },
+
+  // Toast
+  MenuScreenToastEnclave: {
+    position: 'absolute',
+    top: 66,
+    left: 0,
+    right: 0,
+    alignItems: 'center',
+  },
+  MenuScreenToastChip: {
+    backgroundColor: Colors.cardElevated,
+    borderWidth: 1,
+    borderColor: Colors.goldSoft,
+    borderRadius: Radius.full,
+    paddingHorizontal: 16,
+    paddingVertical: 9,
+  },
+  MenuScreenToastFiligree: {
+    fontSize: 12.5,
+    fontWeight: '600',
+    color: Colors.textPrimary,
   },
 
   // Chips
