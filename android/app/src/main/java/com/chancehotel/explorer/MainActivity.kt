@@ -1,4 +1,4 @@
-package com.chancehotellounge
+package com.chancehotel.explorer
 
 import com.facebook.react.ReactActivity
 import com.facebook.react.ReactActivityDelegate

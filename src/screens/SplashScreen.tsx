@@ -58,7 +58,7 @@ export default function SplashScreen({ onFinish }: Props) {
         ]}
       >
         <Text style={styles.SplashScreenTitleFiligree}>
-          Chance{'\n'}Hotel Lounge
+          Chance{'\n'}Hotel Explorer
         </Text>
         <Text style={styles.SplashScreenSubtitleFiligree}>
           Guest Services Hub

@@ -1,6 +1,6 @@
 export const Colors = {
   // Backgrounds (warm near-black theme)
-  background: '#151515',
+  background: 'rgba(28, 1, 1, 1)',
   backgroundElevated: '#191919',
   backgroundSurface: '#1C1C1C',
   backgroundRaised: '#222222',
