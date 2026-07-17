@@ -1,5 +1,5 @@
 export const Colors = {
-  // Backgrounds (warm near-black casino theme)
+  // Backgrounds (warm near-black theme)
   background: '#151515',
   backgroundElevated: '#191919',
   backgroundSurface: '#1C1C1C',

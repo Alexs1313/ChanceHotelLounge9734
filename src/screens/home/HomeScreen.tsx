@@ -66,7 +66,7 @@ export default function HomeScreen() {
             style={StyleSheet.absoluteFill}
           />
           <Text style={styles.HomeScreenHeroCaptionFiligree}>
-            CHANCES CASINO HOTEL
+            CHANCE HOTEL LOUNGE
           </Text>
         </ImageBackground>
 

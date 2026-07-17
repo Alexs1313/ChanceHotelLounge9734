@@ -1,6 +1,6 @@
 workflows:
   react-native-ios:
-    name: Chances Casino Hotel Lounge # <----
+    name: Chance Hotel Lounge # <----
     max_build_duration: 120
     instance_type: mac_mini_m1
     environment:

@@ -4,8 +4,8 @@ export const onboardingSlides: OnboardingSlide[] = [
   {
     key: 'welcome',
     image: 'OnboardWelcome',
-    eyebrow: 'CHANCES CASINO HOTEL',
-    title: 'Welcome to Chances Casino Hotel',
+    eyebrow: 'CHANCE HOTEL LOUNGE',
+    title: 'Welcome to Chance Hotel Lounge',
     description: 'Everything you need for a comfortable stay in one place.',
     cta: 'Continue',
     showSkip: true,

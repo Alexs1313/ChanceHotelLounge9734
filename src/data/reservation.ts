@@ -10,6 +10,6 @@ export const defaultReservation: Reservation = {
 export const hotelAbout: string[] = [
   "Nestled in the heart of British Columbia's premier gaming district.",
   'World-class entertainment, fine dining, and luxury accommodations.',
-  'Exclusive casino experiences crafted for discerning guests.',
+  'Exclusive hotel experiences crafted for discerning guests.',
   'Your ultimate Canadian hotel and gaming retreat awaits.',
 ];

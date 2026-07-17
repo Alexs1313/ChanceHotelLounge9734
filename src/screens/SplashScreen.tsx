@@ -58,7 +58,7 @@ export default function SplashScreen({ onFinish }: Props) {
         ]}
       >
         <Text style={styles.SplashScreenTitleFiligree}>
-          Chances Casino{'\n'}Hotel Lounge
+          Chance{'\n'}Hotel Lounge
         </Text>
         <Text style={styles.SplashScreenSubtitleFiligree}>
           Guest Services Hub
@@ -121,8 +121,9 @@ const styles = StyleSheet.create({
   },
 
   SplashScreenCardsImage: {
-    width: 432,
-    height: 337,
+    width: 232,
+    height: 232,
+    borderRadius: 50,
   },
   SplashScreenFooterEnclave: {
     position: 'absolute',
